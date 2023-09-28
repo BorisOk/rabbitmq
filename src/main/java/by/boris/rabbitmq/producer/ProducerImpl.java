@@ -23,11 +23,11 @@ public class ProducerImpl implements Producer {
      * В какие очереди пойдет сообщение решает обменник.
      * Смотреть в классе RabbitConfig.
      *
-     * И все очереди гарантированно получат это сообщение.
+     * По key получит попадет сообщение в определенную очередь, как прописано в обменнике.
      */
     @Override
-    public void convertAndSend(String message) {
-        template.setExchange("exchange");
-        template.convertAndSend(message);
+    public void convertAndSend(String key, String message) {
+        template.setExchange("direct-exchange");
+        template.convertAndSend(key, message);
     }
 }
