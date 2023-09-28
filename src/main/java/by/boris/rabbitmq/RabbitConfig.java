@@ -58,34 +58,26 @@ public class RabbitConfig {
      * Создание обменник
      */
     @Bean
-    public DirectExchange fanoutExchange() {
-        return new DirectExchange("direct-exchange");
+    public TopicExchange exchange() {
+        return new TopicExchange("topic-exchange");
     }
 
     /**
      * Создание связку между очередями
-     * По ключу (error) получит сообщение 1-ая очередь (myQueue1)
+     * Вместо ключа (key) указывается регулярное выражение (one.*) с которым идет сообщение. Для очереди (myQueue1)
      */
     @Bean
     public Binding bindingOne() {
-        return BindingBuilder.bind(queueOne()).to(fanoutExchange()).with("error");
+        return BindingBuilder.bind(queueOne()).to(exchange()).with("one.*");
     }
 
     /**
      * Создание связку между очередями
-     * По ключу (warn) получит сообщение 2-ая очередь (myQueue2)
+     * Вместо ключа (key) указывается регулярное выражение (*.two) с которым идет сообщение. Для очереди (myQueue2)
      */
     @Bean
     public Binding bindingTwo() {
-        return BindingBuilder.bind(queueTwo()).to(fanoutExchange()).with("warn");
+        return BindingBuilder.bind(queueTwo()).to(exchange()).with("*.two");
     }
 
-    /**
-     * Создание связку между очередями
-     * По ключу (info) получит сообщение 2-ая очередь (myQueue2)
-     */
-    @Bean
-    public Binding bindingThree() {
-        return BindingBuilder.bind(queueTwo()).to(fanoutExchange()).with("info");
-    }
 }
