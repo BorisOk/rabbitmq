@@ -16,6 +16,11 @@ public class Consumer {
 
     @RabbitListener(queues = "myQueue")
     public void processMyQueue(String message) {
-        log.info("received from myQueue : {}", message);
+        log.info("received - [1] from myQueue : {}", message);
+    }
+
+    @RabbitListener(queues = "myQueue")
+    public void processMyQueueTwo(String message) {
+        log.info("received - [2] from myQueue : {}", message);
     }
 }
