@@ -1,8 +1,7 @@
 package by.boris.rabbitmq;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -40,24 +39,42 @@ public class RabbitConfig {
     }
 
     /**
-     * Создание очереди.
+     * Создание очереди № 1
      */
     @Bean
-    public Queue queue() {
-        return new Queue("myQueue");
+    public Queue queueOne() {
+        return new Queue("myQueue1");
     }
 
     /**
-     * Создание получателя. Тут указываем соединение, указываем очередь и выводим полученное сообщение в логи.
-     * Более простой способ создания получателя. Смотреть класс Consumer.
+     * Создание очереди № 2
      */
-    /*@Bean
-    @Deprecated // old working way of assigning a listener
-    public SimpleMessageListenerContainer messageListenerContainer() {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory());
-        container.setQueueNames("myQueue");
-        container.setMessageListener(message -> log.info("[depr] received from myQueue : {}", new String(message.getBody())));
-        return container;
-    }*/
+    @Bean
+    public Queue queueTwo() {
+        return new Queue("myQueue2");
+    }
+
+    /**
+     * Создание обменник
+     */
+    @Bean
+    public FanoutExchange fanoutExchange() {
+        return new FanoutExchange("exchange");
+    }
+
+    /**
+     * Создание связку между очередями
+     */
+    @Bean
+    public Binding bindingOne() {
+        return BindingBuilder.bind(queueOne()).to(fanoutExchange());
+    }
+
+    /**
+     * Создание связку между очередями
+     */
+    @Bean
+    public Binding bindingTwo() {
+        return BindingBuilder.bind(queueTwo()).to(fanoutExchange());
+    }
 }

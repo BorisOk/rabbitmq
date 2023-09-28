@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Consumer {
 
-    @RabbitListener(queues = "myQueue")
+    @RabbitListener(queues = "myQueue1")
     public void processMyQueue(String message) {
-        log.info("received - [1] from myQueue : {}", message);
+        log.info("received - [1] from (myQueue1) : {}", message);
     }
 
-    @RabbitListener(queues = "myQueue")
+    @RabbitListener(queues = "myQueue2")
     public void processMyQueueTwo(String message) {
-        log.info("received - [2] from myQueue : {}", message);
+        log.info("received - [2] from (myQueue2) : {}", message);
     }
 }

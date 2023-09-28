@@ -14,8 +14,8 @@ public class SampleController {
 
     @PostMapping("/send")
     public ResponseEntity<String> send(@RequestBody String message) {
-        log.info("Send to myQueue");
+        log.info("Send to myQueue1 and myQueue2");
         producer.convertAndSend(message);
-        return ResponseEntity.ok("Success send to myQueue");
+        return ResponseEntity.ok("Success send to myQueue1 and myQueue2");
     }
 }
